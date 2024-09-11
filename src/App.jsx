@@ -1,33 +1,63 @@
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPokemons } from './redux/pokemonSlice'
+import { fetchPokemons, searchPokemon } from './redux/pokemonSlice'
+import { useEffect, useState } from 'react'
 
 function App() {
-  const pokemons = useSelector(state => state.pokemons.pokemons)
-  const dispatch = useDispatch()
+  const { pokemon, searchResult, status, error } = useSelector(state => state.pokemons);
+  const dispatch = useDispatch();
+  const [name, setName] = useState("");
+
+  const handleSearch = () => {
+    dispatch(searchPokemon(name));
+  };
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchPokemons());
+    }
+  }, [dispatch, status]);
 
   return (
     <>
-      <div className='principal'>
-        <div className="inicial bucador">
-          <input type="text" />
-          <button onClick={ () => dispatch(fetchPokemons()) }>Go</button>
+      <div className="principal">
+        <div className="inicial buscador">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Search Pokémon..."
+          />
+          <button onClick={handleSearch}>Go</button>
         </div>
-        <div className='resultado'>
-          <ul>
-            { pokemons.map(
-              pokemon => (
-                <li>
-                  <p>{pokemon.name}</p>
-                </li>)) }
-          </ul>
-        </div>
-        <div className='pokedex'>
 
-        </div>
+        {/* Mensajes de estado */}
+        {status === 'loading' && <p>Loading...</p>}
+        {status === 'failed' && <p>Error: {error}</p>}
+
+        {/* Mostrar resultado de búsqueda si existe */}
+        {searchResult && (
+          <div className="resultado">
+            <p>{searchResult.name}</p>
+            {/* <img src={searchResult.sprites.front_default} alt={searchResult.name} /> */}
+          </div>
+        )}
+
+        {/* Mostrar todos los Pokémon cuando la carga haya sido exitosa */}
+        {status === 'succeeded' && (
+          <div className="pokedex">
+            <ul>
+              {pokemon?.map((poke) => (
+                <li key={poke.name}>
+                  <p>{poke.name}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

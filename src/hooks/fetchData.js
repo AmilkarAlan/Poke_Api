@@ -1,9 +1,18 @@
 import axios from "axios";
-
-export const fetching = async (input) => {
+const URL = "https://pokeapi.co/api/v2"
+export const fetching = async () => {
     try {
-        const {data} = await axios.get("https://pokeapi.co/api/v2/pokemon")
-        console.log(data);
+        const {data} = await axios.get(`${URL}/pokemon`)
+        
+        return data
+    } catch (error) {
+        return error 
+    }
+}
+export const searching = async (input) => {
+    try {
+        const {data} = await axios.get(`${URL}/pokemon/${input}`)
+
         return data
     } catch (error) {
         return error 
