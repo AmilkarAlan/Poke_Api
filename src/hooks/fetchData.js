@@ -18,3 +18,12 @@ export const searching = async (input) => {
         return error 
     }
 }
+
+export const fetchTypes = async () => {
+    try {
+        const {data} = await axios.get(`${URL}/type/?offset=0&limit=21`)
+        return data
+    } catch (error) {
+        return error 
+    }
+}

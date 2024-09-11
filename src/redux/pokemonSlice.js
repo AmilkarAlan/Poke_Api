@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetching, searching } from "../hooks/fetchData";
+import { fetching, fetchTypes, searching,  } from "../hooks/fetchData";
 
 const initialState = {
     pokemon: [],
@@ -16,6 +16,15 @@ export const fetchPokemons = createAsyncThunk(
     async (_, thunkAPI) => {
         const state = thunkAPI.getState().pokemons; // Acceder al estado global
         const response = await fetching(state.limit, state.offset); // Usar limit y offset del estado
+        return response.results;
+    }
+);
+
+export const fetchFilters = createAsyncThunk(
+    'pokemons/fetchPokemons',
+    async () => {
+        
+        const response = await fetchTypes()
         return response.results;
     }
 );
