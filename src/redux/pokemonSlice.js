@@ -6,20 +6,23 @@ const initialState = {
     status: 'idle', // idle | loading | succeeded | failed
     error: null,
     searchResult: null, // Para almacenar el resultado de la búsqueda
+    limit: 20,
+    offset: 0
 }
 
 // Acción asíncrona para obtener la lista de pokémon
 export const fetchPokemons = createAsyncThunk(
-    'pokemons/fetchPokemons', 
-    async () => {
-        const response = await fetching();
+    'pokemons/fetchPokemons',
+    async (_, thunkAPI) => {
+        const state = thunkAPI.getState().pokemons; // Acceder al estado global
+        const response = await fetching(state.limit, state.offset); // Usar limit y offset del estado
         return response.results;
     }
-)
+);
 
 // Acción asíncrona para buscar un pokémon por nombre
 export const searchPokemon = createAsyncThunk(
-    'pokemons/searchPokemon', 
+    'pokemons/searchPokemon',
     async (name) => {
         const response = await searching(name);
         return response;
@@ -29,7 +32,14 @@ export const searchPokemon = createAsyncThunk(
 export const pokemonSlice = createSlice({
     name: "pokemons",
     initialState,
-    reducers: {},
+    reducers: {
+        nextPage: (state) => {
+            state.offset += state.limit; // Incrementar el offset en el valor del limit
+        },
+        previousPage: (state) => {
+            state.offset = Math.max(state.offset - state.limit, 0); // Asegurarse de que no sea menor que 0
+        }
+    },
     extraReducers: (builder) => {
         builder
             // Casos para la acción fetchPokemons
@@ -59,4 +69,5 @@ export const pokemonSlice = createSlice({
     },
 });
 
+export const { nextPage, previousPage } = pokemonSlice.actions;
 export default pokemonSlice.reducer;

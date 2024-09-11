@@ -1,10 +1,11 @@
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPokemons, searchPokemon } from './redux/pokemonSlice'
+import { fetchPokemons, nextPage, previousPage, searchPokemon } from './redux/pokemonSlice'
 import { useEffect, useState } from 'react'
 
 function App() {
   const { pokemon, searchResult, status, error } = useSelector(state => state.pokemons);
+  const offset = useSelector(state => state.pokemons.offset);
   const dispatch = useDispatch();
   const [name, setName] = useState("");
 
@@ -17,6 +18,16 @@ function App() {
       dispatch(fetchPokemons());
     }
   }, [dispatch, status]);
+
+  const handleNext = () => {
+    dispatch(nextPage()); // Aumentar el offset
+    dispatch(fetchPokemons()); // Realizar fetch de los nuevos Pokémon
+  };
+
+  const handlePrevious = () => {
+    dispatch(previousPage()); // Reducir el offset
+    dispatch(fetchPokemons()); // Realizar fetch de los Pokémon anteriores
+  };
 
   return (
     <>
@@ -53,6 +64,10 @@ function App() {
                 </li>
               ))}
             </ul>
+            <div className='botones'>
+              <button onClick={handlePrevious} disabled={offset === 0}>Anterior</button>
+              <button onClick={handleNext}>Siguiente</button>
+            </div>
           </div>
         )}
       </div>
