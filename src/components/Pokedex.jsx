@@ -33,7 +33,7 @@ const Pokedex = () => {
       {/* Mostrar todos los Pokémon cuando la carga haya sido exitosa */ }
       { status === 'succeeded' && (
         <div className="pokedex">
-          <ul className='flex w-full flex-wrap'>
+          <ul className='flex w-full flex-wrap gap-4 m-4'>
             { pokedex?.map((poke) => (
               <li key={ poke.name }>
                 <PokeCarta poke={poke}/>

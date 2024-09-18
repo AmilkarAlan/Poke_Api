@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {fetchPokemonInfo, fetchPokemonList, fetchTypes, searching,  } from "../hooks/fetchData";
+import {fetchPokemonData, fetchPokemonList, fetchTypes, searching,  } from "../hooks/fetchData";
 
 const initialState = {
     pokedex: [],
@@ -18,31 +18,23 @@ export const fetchPokedex = createAsyncThunk(
         const state = thunkAPI.getState().pokemons; // Acceder al estado global
         const response = await fetchPokemonList(state.limit, state.offset);
         const detailedPokemonList = await Promise.all(
-            response.results.map(pokemon => fetchPokemonInfo(pokemon.name)) // Para cada Pokémon, obtenemos sus detalles
-          );
-
-        
+            response.results.map(pokemon => fetchPokemonData(pokemon.url))
+            
+        );
         return detailedPokemonList;
     }
 );
 
-export const fetchPokeInfo = createAsyncThunk(
-    'pokemons/fetchPokeInfo',
-    async (nombre) => {
-        const response = await fetchPokemonInfo(nombre);
+// export const fetchPokeInfo = createAsyncThunk(
+//     'pokemons/fetchPokeInfo',
+//     async (nombre) => {
+//         const response = await fetchPokemon(nombre);
 
-        return response;
-    }
-);
+//         return response;
+//     }
+// );
 
-export const fetchFilters = createAsyncThunk(
-    'pokemons/fetchFilters',
-    async () => {
-        
-        const response = await fetchTypes()
-        return response.results;
-    }
-);
+
 
 // Acción asíncrona para buscar un pokémon por nombre
 export const searchPokemon = createAsyncThunk(

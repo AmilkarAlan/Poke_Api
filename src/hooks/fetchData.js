@@ -1,9 +1,9 @@
 import axios from "axios";
-const URL = "https://pokeapi.co/api/v2"
+const URL = "https://pokeapi.co/api/v2/pokemon"
 
 export const fetchPokemonList = async (limit, offset) => {
     try {
-        const { data } = await axios.get(`${URL}/pokemon?offset=${offset}&limit=${limit}`)
+        const { data } = await axios.get(`${URL}?offset=${offset}&limit=${limit}`)
 
         return data
     } catch (error) {
@@ -11,9 +11,9 @@ export const fetchPokemonList = async (limit, offset) => {
     }
 }
 
-export const fetchPokemonInfo = async (nombre) => {
+export const fetchPokemonData = async (URL) => {
     try {
-        const { data } = await axios.get(`${URL}/pokemon/${nombre}`)
+        const { data } = await axios.get(`${URL}`)
         return data
     } catch (error) {
         return error
@@ -22,7 +22,7 @@ export const fetchPokemonInfo = async (nombre) => {
 
 export const searching = async (input) => {
     try {
-        const { data } = await axios.get(`${URL}/pokemon/${input}`)
+        const { data } = await axios.get(`${URL}/${input}`)
 
         return data
     } catch (error) {
@@ -30,10 +30,11 @@ export const searching = async (input) => {
     }
 }
 
-export const fetchTypes = async () => {
+export const fetchTypes = async (URL) => {
     try {
-        const { data } = await axios.get(`${URL}/type/?offset=0&limit=21`)
-        return data
+        const response = await axios.get(`${URL}`)
+ 
+        return response
     } catch (error) {
         return error
     }

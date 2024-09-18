@@ -1,3 +1,10 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+@layer utilities {
+    .clip-custom {
+      clip-path: inset(0 75% 0 0); /* Ajusta este valor para recortar la imagen */
+
+    }
+  }
