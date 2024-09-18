@@ -1,6 +1,9 @@
 import React from 'react'
 
 const Bucador = () => {
+    const handleSearch = () => {
+        dispatch(searchPokemon(name));
+      };
     return (
         <div>
             <div className="inicial buscador">

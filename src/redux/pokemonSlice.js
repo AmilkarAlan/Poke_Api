@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetching, fetchTypes, searching,  } from "../hooks/fetchData";
+import {fetchPokemonInfo, fetchPokemonList, fetchTypes, searching,  } from "../hooks/fetchData";
 
 const initialState = {
-    pokemon: [],
+    pokedex: [],
+    pokemon: {},
     status: 'idle', // idle | loading | succeeded | failed
     error: null,
     searchResult: null, // Para almacenar el resultado de la búsqueda
@@ -11,17 +12,31 @@ const initialState = {
 }
 
 // Acción asíncrona para obtener la lista de pokémon
-export const fetchPokemons = createAsyncThunk(
-    'pokemons/fetchPokemons',
+export const fetchPokedex = createAsyncThunk(
+    'pokemons/fetchPokedex',
     async (_, thunkAPI) => {
         const state = thunkAPI.getState().pokemons; // Acceder al estado global
-        const response = await fetching(state.limit, state.offset); // Usar limit y offset del estado
-        return response.results;
+        const response = await fetchPokemonList(state.limit, state.offset);
+        const detailedPokemonList = await Promise.all(
+            response.results.map(pokemon => fetchPokemonInfo(pokemon.name)) // Para cada Pokémon, obtenemos sus detalles
+          );
+
+        
+        return detailedPokemonList;
+    }
+);
+
+export const fetchPokeInfo = createAsyncThunk(
+    'pokemons/fetchPokeInfo',
+    async (nombre) => {
+        const response = await fetchPokemonInfo(nombre);
+
+        return response;
     }
 );
 
 export const fetchFilters = createAsyncThunk(
-    'pokemons/fetchPokemons',
+    'pokemons/fetchFilters',
     async () => {
         
         const response = await fetchTypes()
@@ -52,14 +67,14 @@ export const pokemonSlice = createSlice({
     extraReducers: (builder) => {
         builder
             // Casos para la acción fetchPokemons
-            .addCase(fetchPokemons.pending, (state) => {
+            .addCase(fetchPokedex.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(fetchPokemons.fulfilled, (state, action) => {
+            .addCase(fetchPokedex.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.pokemon = action.payload;
+                state.pokedex = action.payload;
             })
-            .addCase(fetchPokemons.rejected, (state, action) => {
+            .addCase(fetchPokedex.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })
