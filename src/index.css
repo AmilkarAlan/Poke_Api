@@ -8,3 +8,44 @@
 
     }
   }
+
+  /* styles.css */
+.poke-color-black {
+  background-color: #333; /* Negro */
+}
+
+.poke-color-blue {
+  background-color: #3b82f6; /* Azul */
+}
+
+.poke-color-brown {
+  background-color: #a52a2a; /* Marrón */
+}
+
+.poke-color-gray {
+  background-color: #6b7280; /* Gris */
+}
+
+.poke-color-green {
+  background-color: #10b981; /* Verde */
+}
+
+.poke-color-pink {
+  background-color: #ec4899; /* Rosa */
+}
+
+.poke-color-purple {
+  background-color: #8b5cf6; /* Púrpura */
+}
+
+.poke-color-red {
+  background-color: #ef4444; /* Rojo */
+}
+
+.poke-color-white {
+  background-color: #f3f4f6; /* Blanco */
+}
+
+.poke-color-yellow {
+  background-color: #f59e0b; /* Amarillo */
+}

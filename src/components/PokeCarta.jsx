@@ -1,10 +1,34 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPokeTypes } from "../redux/typesSlice";
+import { fetchColors, fetchPokeTypes } from "../redux/typesSlice";
 
 const PokeCarta = ({ poke }) => {
   const dispatch = useDispatch();
   const types = useSelector((state) => state.types.types);
+
+  const colors = useSelector((state) => state.types.colors);
+
+  useEffect(() => {
+    if (colors.length === 0) {
+      dispatch(fetchColors());
+    }
+  }, [ dispatch, colors ]);
+
+  // Encontrar el color correspondiente al Pokémon
+  const pokemonColor = colors.find(colorObj =>
+    colorObj.pokemons.includes(poke.name)
+  );
+
+  // Asignar el color de fondo basado en el resultado
+  const bgColorClass = pokemonColor ? `poke-color-${pokemonColor.color}` : "poke-color-gray";
+
+
+
+  useEffect(() => {
+
+    console.log(bgColorClass);
+
+  }, [ bgColorClass ]);
 
   useEffect(() => {
     poke.types.map((type) => {
@@ -14,8 +38,8 @@ const PokeCarta = ({ poke }) => {
     });
   }, [ poke, dispatch ]);
 
-  return (
-    <div className="bg-slate-600 h-fit w-fit flex flex-col">
+  return ( 
+    <div className={ `${bgColorClass} h-fit w-fit flex flex-col bg-red` }>
       <img src={ poke.sprites.front_default } alt={ poke.name } />
       <p>{ poke.name }</p>
       <div className="types flex">
