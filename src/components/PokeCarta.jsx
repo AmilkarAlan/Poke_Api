@@ -7,6 +7,8 @@ const PokeCarta = ({ poke }) => {
   const dispatch = useDispatch();
   const types = useSelector((state) => state.types.types);
   const colors = useSelector((state) => state.types.colors);
+  const typeLoad = useSelector((state) => state.types.status);
+  const infoLoad = useSelector((state) => state.pokemons.status);
   const [ loaded, setLoaded ] = useState(false);
 
   useEffect(() => {
@@ -14,6 +16,12 @@ const PokeCarta = ({ poke }) => {
       dispatch(fetchColors());
     }
   }, [ dispatch, colors ]);
+
+  useEffect(() => {
+    if (typeLoad === "succeeded" && infoLoad === "succeeded") {
+      setLoaded(true)
+    }
+  }, [ typeLoad, infoLoad]);
 
   // Encontrar el color correspondiente al Pokémon
   const pokemonColor = colors.find(colorObj =>
@@ -41,10 +49,28 @@ const PokeCarta = ({ poke }) => {
 
   return (
     <div className={ `${bgColorClass} h-fit w-fit flex flex-col bg-red` }>
-      { !loaded && <Esqueleto /> }
-      <img src={ poke.sprites.front_default } alt={ poke.name } onLoad={ () => setLoaded(true) } />
-      { loaded && (
+      { !loaded ? <Esqueleto /> : (        <>
+          <img src={ poke.sprites.front_default } alt={ poke.name } onLoad={ () => setLoaded(true) } />
+          <p>{ poke.name }</p>
+          <div className="types flex">
+            { poke.types.map((type) => {
+              const foundType = types.find(t => t.name === type.type.name);
+              return foundType ? (
+                <div className="icon-container overflow-hidden w-8 h-8 rounded-full ">
+                  <img
+                    className="object-cover object-left w-full h-full"
+                    key={ type.slot }
+                    src={ foundType.sprites[ 'generation-viii' ][ 'legends-arceus' ][ 'name_icon' ] }
+                    alt={ foundType.name }
+                  />
+                </div>
+              ) : null;
+            }) }
+          </div>
+        </>)}
+      {/* { loaded && (
         <>
+          <img src={ poke.sprites.front_default } alt={ poke.name } onLoad={ () => setLoaded(true) } />
           <p>{ poke.name }</p>
           <div className="types flex">
             { poke.types.map((type) => {
@@ -62,7 +88,7 @@ const PokeCarta = ({ poke }) => {
             }) }
           </div>
         </>
-      ) }
+      ) } */}
     </div>
   );
 };

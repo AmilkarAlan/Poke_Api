@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {fetchPokemonData, fetchPokemonList, fetchTypes, searching,  } from "../hooks/fetchData";
+import { fetchPokemonData, fetchPokemonList, fetchTypes, searching, } from "../hooks/fetchData";
 
 const initialState = {
     pokedex: [],
@@ -8,7 +8,8 @@ const initialState = {
     error: null,
     searchResult: null, // Para almacenar el resultado de la búsqueda
     limit: 20,
-    offset: 0
+    offset: 0,
+    cache: {}
 }
 
 // Acción asíncrona para obtener la lista de pokémon
@@ -16,24 +17,24 @@ export const fetchPokedex = createAsyncThunk(
     'pokemons/fetchPokedex',
     async (_, thunkAPI) => {
         const state = thunkAPI.getState().pokemons; // Acceder al estado global
-        const response = await fetchPokemonList(state.limit, state.offset);
+        const { offset, limit, cache } = state; // Obtener el cache, offset y limit
+
+        // Verificar si ya tenemos la página en el cache
+        if (cache[ offset ]) {
+            console.log(cache[ offset ]);
+
+            return { data: cache[ offset ] }; // Si ya tenemos los datos de esta página, los devolvemos directamente
+        }
+
+        // Si no tenemos los datos, hacemos la solicitud
+        const response = await fetchPokemonList(limit, offset);
         const detailedPokemonList = await Promise.all(
             response.results.map(pokemon => fetchPokemonData(pokemon.url))
-            
         );
-        return detailedPokemonList;
+
+        return { offset, data: detailedPokemonList }; // Retornamos el offset actual y los datos
     }
 );
-
-// export const fetchPokeInfo = createAsyncThunk(
-//     'pokemons/fetchPokeInfo',
-//     async (nombre) => {
-//         const response = await fetchPokemon(nombre);
-
-//         return response;
-//     }
-// );
-
 
 
 // Acción asíncrona para buscar un pokémon por nombre
@@ -63,8 +64,10 @@ export const pokemonSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(fetchPokedex.fulfilled, (state, action) => {
+                const { offset, data } = action.payload
                 state.status = 'succeeded';
-                state.pokedex = action.payload;
+                state.pokedex = data;
+                state.cache[ offset ] = data;
             })
             .addCase(fetchPokedex.rejected, (state, action) => {
                 state.status = 'failed';
