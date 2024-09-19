@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColors, fetchPokeTypes } from "../redux/typesSlice";
+import Esqueleto from "./Esqueleto";
 
 const PokeCarta = ({ poke }) => {
   const dispatch = useDispatch();
   const types = useSelector((state) => state.types.types);
-
   const colors = useSelector((state) => state.types.colors);
+  const [ loaded, setLoaded ] = useState(false);
 
   useEffect(() => {
     if (colors.length === 0) {
@@ -38,25 +39,30 @@ const PokeCarta = ({ poke }) => {
     });
   }, [ poke, dispatch ]);
 
-  return ( 
+  return (
     <div className={ `${bgColorClass} h-fit w-fit flex flex-col bg-red` }>
-      <img src={ poke.sprites.front_default } alt={ poke.name } />
-      <p>{ poke.name }</p>
-      <div className="types flex">
-        { poke.types.map((type) => {
-          const foundType = types.find(t => t.name === type.type.name);
-          return foundType ? (
-            <div className="icon-container overflow-hidden w-8 h-8 rounded-full ">
-              <img
-                className="object-cover object-left w-full h-full"
-                key={ type.slot }
-                src={ foundType.sprites[ 'generation-viii' ][ 'legends-arceus' ][ 'name_icon' ] }
-                alt={ foundType.name }
-              />
-            </div>
-          ) : null;
-        }) }
-      </div>
+      { !loaded && <Esqueleto /> }
+      <img src={ poke.sprites.front_default } alt={ poke.name } onLoad={ () => setLoaded(true) } />
+      { loaded && (
+        <>
+          <p>{ poke.name }</p>
+          <div className="types flex">
+            { poke.types.map((type) => {
+              const foundType = types.find(t => t.name === type.type.name);
+              return foundType ? (
+                <div className="icon-container overflow-hidden w-8 h-8 rounded-full ">
+                  <img
+                    className="object-cover object-left w-full h-full"
+                    key={ type.slot }
+                    src={ foundType.sprites[ 'generation-viii' ][ 'legends-arceus' ][ 'name_icon' ] }
+                    alt={ foundType.name }
+                  />
+                </div>
+              ) : null;
+            }) }
+          </div>
+        </>
+      ) }
     </div>
   );
 };

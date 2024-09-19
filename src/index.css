@@ -9,7 +9,7 @@
     }
   }
 
-  /* styles.css */
+  /* Colores */
 .poke-color-black {
   background-color: #333; /* Negro */
 }
@@ -48,4 +48,22 @@
 
 .poke-color-yellow {
   background-color: #f59e0b; /* Amarillo */
+}
+
+/* Esqueleto */
+
+.skeleton-card {
+  @apply bg-gray-300 rounded p-4 w-full h-[200px] animate-pulse;
+}
+
+.skeleton-image {
+  @apply bg-gray-400 rounded w-full h-[120px] mb-4;
+}
+
+.skeleton-text {
+  @apply bg-gray-400 rounded w-full h-4 mb-4;
+}
+
+.skeleton-buttons {
+  @apply bg-gray-400 rounded w-[30%] h-6;
 }

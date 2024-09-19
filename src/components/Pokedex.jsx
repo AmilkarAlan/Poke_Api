@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPokedex, nextPage, previousPage } from '../redux/pokemonSlice';
 import PokeCarta from './PokeCarta';
@@ -13,7 +13,7 @@ const Pokedex = () => {
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchPokedex());
-    } 
+    }
   }, [ dispatch, status ]);
 
   const handleNext = () => {
@@ -27,16 +27,16 @@ const Pokedex = () => {
   };
   return (
     <div>
-      {status === "failed" && (
-        <p>{error}</p>
-      )}
+      { status === "failed" && (
+        <p>{ error }</p>
+      ) }
       {/* Mostrar todos los Pokémon cuando la carga haya sido exitosa */ }
       { status === 'succeeded' && (
         <div className="pokedex">
           <ul className='flex w-full flex-wrap gap-4 m-4'>
             { pokedex?.map((poke) => (
               <li key={ poke.name }>
-                <PokeCarta poke={poke}/>
+                <PokeCarta poke={ poke } />
               </li>
             )) }
           </ul>
