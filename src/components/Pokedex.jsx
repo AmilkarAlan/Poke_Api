@@ -27,17 +27,17 @@ const Pokedex = () => {
     dispatch(fetchPokedex()); // Realizar fetch de los Pokémon anteriores
   };
   return (
-    <div>
+    <div className='w-full'>
       { status === "failed" && (
         <p>{ error }</p>
       ) }
       {/* Mostrar todos los Pokémon cuando la carga haya sido exitosa */ }
-      <div className="h-full">
+      <div className="h-full w-1/2">
         {status === "loading" && (<h1>Cargando...</h1>)}
         { status === 'succeeded' && (
-          <ul className='flex w-full flex-wrap gap-4 m-4'>
+          <ul className='w-full grid grid-cols-3 gap-8 p-4'>
             { pokedex?.map((poke) => (
-              <li key={ poke.name }>
+              <li className='flex justify-center' key={ poke.name }>
                 <PokeCarta poke={ poke } />
               </li>
             )) }

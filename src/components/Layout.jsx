@@ -4,11 +4,10 @@ import { Outlet } from 'react-router-dom'
 
 const Layout = () => {
   return (
-    <div className="w-screen h-screen grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
+    <div className="w-screen h-screen grid grid-cols-[1fr_auto] grid-rows-[auto_1fr]">
       <header className="col-span-2 bg-gray-200">
         Header
       </header>
-      <BarraLateral />
       <main className="bg-green-200 w-full">
         <Outlet />
       </main>

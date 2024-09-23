@@ -3,51 +3,82 @@
 @import 'tailwindcss/utilities';
 
 @layer utilities {
-    .clip-custom {
-      clip-path: inset(0 75% 0 0); /* Ajusta este valor para recortar la imagen */
+  .clip-custom {
+    clip-path: inset(0 75% 0 0);
+    /* Ajusta este valor para recortar la imagen */
 
-    }
   }
+}
 
-  /* Colores */
+/* Colores */
 .poke-color-black {
-  background-color: #333; /* Negro */
+  /* background-color: #333; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 25%, rgba(51, 51, 51, 1) 100%);
+  /* Negro */
 }
 
 .poke-color-blue {
-  background-color: #3b82f6; /* Azul */
+  /* background-color: #3b82f6; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 25%, rgba(59, 130, 246, 1) 100%);
+  /* Azul */
 }
 
 .poke-color-brown {
-  background-color: #a52a2a; /* Marrón */
+  /* background-color: #a52a2a; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 25%, rgba(165, 42, 42, 1) 100%);
+  /* Marrón */
 }
 
 .poke-color-gray {
-  background-color: #6b7280; /* Gris */
+  /* background-color: #6b7280; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 25%, rgba(107, 114, 128, 1) 100%);
+  /* Gris */
 }
 
 .poke-color-green {
-  background-color: #10b981; /* Verde */
+  /* background-color: #10b981; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgb(255, 255, 255) 25%, rgba(16, 185, 129, 1) 100%);
+  /* Verde */
 }
 
 .poke-color-pink {
-  background-color: #ec4899; /* Rosa */
+  /* background-color: #ec4899; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 25%, rgba(236, 72, 153, 1) 100%);
+  /* Rosa */
 }
 
 .poke-color-purple {
-  background-color: #8b5cf6; /* Púrpura */
+  /* background-color: #8b5cf6; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 25%, rgba(139, 92, 246, 1) 100%);
+  /* Púrpura */
 }
 
 .poke-color-red {
-  background-color: #ef4444; /* Rojo */
+  /* background-color: #ef4444; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 25%, rgba(239, 68, 68, 1) 100%);
+  /* Rojo */
 }
 
 .poke-color-white {
-  background-color: #f3f4f6; /* Blanco */
+  /* background-color: #f3f4f6; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 25%, rgba(243, 244, 246, 1) 100%);
+  /* Blanco */
 }
 
 .poke-color-yellow {
-  background-color: #f59e0b; /* Amarillo */
+  /* background-color: #f59e0b; */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 25%, rgba(245, 158, 11, 1) 100%);
+  /* Amarillo */
 }
 
 /* Esqueleto */
