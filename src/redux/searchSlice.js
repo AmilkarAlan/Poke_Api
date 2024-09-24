@@ -14,9 +14,6 @@ export const searchPokemon = createAsyncThunk(
     async (name) => {
         const response = await searching(name);
         return response;
-
-
-
     }
 )
 
