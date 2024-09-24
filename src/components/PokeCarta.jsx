@@ -15,7 +15,7 @@ const PokeCarta = ({ poke }) => {
     if (colors.length === 0) {
       dispatch(fetchColors());
     }
-  }, [ dispatch, colors ]);
+  }, [ dispatch, colors, poke ]);
 
   useEffect(() => {
     if (typeLoad === "succeeded" && infoLoad === "succeeded") {
@@ -31,14 +31,6 @@ const PokeCarta = ({ poke }) => {
   // Asignar el color de fondo basado en el resultado
   const bgColorClass = pokemonColor ? `poke-color-${pokemonColor.color}` : "poke-color-gray";
 
-
-
-  useEffect(() => {
-
-    console.log(bgColorClass);
-
-  }, [ bgColorClass ]);
-
   useEffect(() => {
     poke.types.map((type) => {
       if (!types.find(t => t.name === type.type.name)) {
@@ -48,7 +40,7 @@ const PokeCarta = ({ poke }) => {
   }, [ poke, dispatch ]);
 
   return (
-        <div className="w-full flex flex-col justify-center items-center bg-white rounded-md shadow-2xl"
+        <div className="w-full flex flex-col justify-center items-center bg-white rounded-md  box-shadow-card"
         
     // style={{backgroundImage: `url(${poke.sprites.other.dream_world.front_default})`}}
     >
@@ -67,10 +59,9 @@ const PokeCarta = ({ poke }) => {
             { poke.types.map((type) => {
               const foundType = types.find(t => t.name === type.type.name);
               return foundType ? (
-                <div className="icon-container overflow-hidden w-6 h-6">
+                <div key={foundType.id} className="icon-container overflow-hidden w-6 h-6">
                   <img
                     className="object-cover object-left w-full h-full"
-                    key={ type.slot }
                     src={ foundType.sprites[ 'generation-viii' ][ 'legends-arceus' ][ 'name_icon' ] }
                     alt={ foundType.name }
                   />

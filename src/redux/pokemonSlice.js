@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchPokemonData, fetchPokemonList, fetchTypes, searching, } from "../hooks/fetchData";
+import { fetchPokemonData, fetchPokemonList} from "../hooks/fetchData";
 
 const initialState = {
     pokedex: [],
     pokemon: {},
-    status: 'idle', // idle | loading | succeeded | failed
+    status: 'idle', // idle | loading | succeeded | failed 
     error: null,
-    searchResult: null, // Para almacenar el resultado de la búsqueda
     limit: 20,
     offset: 0,
     cache: {}
@@ -36,16 +35,6 @@ export const fetchPokedex = createAsyncThunk(
     }
 );
 
-
-// Acción asíncrona para buscar un pokémon por nombre
-export const searchPokemon = createAsyncThunk(
-    'pokemons/searchPokemon',
-    async (name) => {
-        const response = await searching(name);
-        return response;
-    }
-)
-
 export const pokemonSlice = createSlice({
     name: "pokemons",
     initialState,
@@ -73,18 +62,7 @@ export const pokemonSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            // Casos para la acción fetchSearchPokemon
-            .addCase(searchPokemon.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(searchPokemon.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.searchResult = action.payload;
-            })
-            .addCase(searchPokemon.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            });
+
     },
 });
 

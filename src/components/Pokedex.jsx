@@ -32,7 +32,7 @@ const Pokedex = () => {
         <p>{ error }</p>
       ) }
       {/* Mostrar todos los Pokémon cuando la carga haya sido exitosa */ }
-      <div className="h-full w-1/2">
+      <div className="h-full w-full">
         {status === "loading" && (<h1>Cargando...</h1>)}
         { status === 'succeeded' && (
           <ul className='w-full grid grid-cols-3 gap-8 p-4'>

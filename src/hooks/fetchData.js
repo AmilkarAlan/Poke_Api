@@ -23,17 +23,16 @@ export const fetchPokemonData = async (URL) => {
 export const searching = async (input) => {
     try {
         const { data } = await axios.get(`${URL}/${input}`)
-
         return data
     } catch (error) {
-        return error
+        throw new Error(error);
     }
 }
 
 export const fetchTypes = async (URL) => {
     try {
         const response = await axios.get(`${URL}`)
- 
+
         return response
     } catch (error) {
         return error

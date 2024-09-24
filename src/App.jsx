@@ -20,7 +20,9 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={ <Layout /> } >
-          <Route path='/pokedex' element={ <Pokedex /> } />
+          <Route path='pokedex' element={ <Pokedex /> } >
+            
+          </Route>
         </Route>
       </Routes>
     </>
