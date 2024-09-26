@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { searching } from "../hooks/fetchData";
+import { searchByInput} from "../hooks/fetchData";
 
 const initialState = {
 
@@ -12,7 +12,7 @@ const initialState = {
 export const searchPokemon = createAsyncThunk(
     'search/searchPokemon',
     async (name) => {
-        const response = await searching(name);
+        const response = await searchByInput(name);
         return response;
     }
 )
@@ -20,7 +20,12 @@ export const searchPokemon = createAsyncThunk(
 export const searchSlice = createSlice({
     name: "search",
     initialState,
-    reducers: {},
+    reducers: {
+        clearPokemon: (state) => {
+            state.status = "idle"
+            state.searchResult = null
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(searchPokemon.pending, (state) => {
@@ -37,5 +42,5 @@ export const searchSlice = createSlice({
     }
 })
 
-
+export const { clearPokemon } = searchSlice.actions;
 export default searchSlice.reducer;

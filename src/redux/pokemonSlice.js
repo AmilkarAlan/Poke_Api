@@ -1,14 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchPokemonData, fetchPokemonList} from "../hooks/fetchData";
+import { fetchPokemonData, fetchPokemonList, searchByInput, searching } from "../hooks/fetchData";
 
 const initialState = {
     pokedex: [],
-    pokemon: {},
+    pokemon: null,
+    pokeExtra: null,
     status: 'idle', // idle | loading | succeeded | failed 
     error: null,
     limit: 20,
     offset: 0,
-    cache: {}
+    cache: {},
+
 }
 
 // Acción asíncrona para obtener la lista de pokémon
@@ -35,6 +37,22 @@ export const fetchPokedex = createAsyncThunk(
     }
 );
 
+export const fetchExtraInfo = createAsyncThunk(
+    'pokemons/fetchExtraInfo',
+    async (URL) => {
+        const response = await fetchPokemonData(URL);
+        return response;
+    }
+);
+
+export const getPokemon = createAsyncThunk(
+    'pokemons/getPokemon',
+    async (input) => {
+        const response = await searchByInput(input)
+        return response
+    }
+)
+
 export const pokemonSlice = createSlice({
     name: "pokemons",
     initialState,
@@ -44,6 +62,9 @@ export const pokemonSlice = createSlice({
         },
         previousPage: (state) => {
             state.offset = Math.max(state.offset - state.limit, 0); // Asegurarse de que no sea menor que 0
+        },
+        selectPokemon: (state, action) => {
+            state.pokemon = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -62,9 +83,15 @@ export const pokemonSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
+            .addCase(fetchExtraInfo.fulfilled, (state, action) => {
+                state.pokeExtra = action.payload
+            })
+            .addCase(getPokemon.fulfilled, (state, action) => {
+                state.pokemon = action.payload
+            })
 
     },
 });
 
-export const { nextPage, previousPage } = pokemonSlice.actions;
+export const { nextPage, previousPage, selectPokemon } = pokemonSlice.actions;
 export default pokemonSlice.reducer;

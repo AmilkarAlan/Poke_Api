@@ -1,7 +1,8 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPokedex, nextPage, previousPage } from '../redux/pokemonSlice';
+import { fetchPokedex, nextPage, previousPage, selectPokemon } from '../redux/pokemonSlice';
 import PokeCarta from './PokeCarta';
+import { Link } from 'react-router-dom';
 
 
 const Pokedex = () => {
@@ -26,6 +27,11 @@ const Pokedex = () => {
     dispatch(previousPage()); // Reducir el offset
     dispatch(fetchPokedex()); // Realizar fetch de los Pokémon anteriores
   };
+
+  const handleSelectPokemon = (pokemon) => {
+    dispatch(selectPokemon(pokemon))
+    
+  }
   return (
     <div className='w-full'>
       { status === "failed" && (
@@ -33,12 +39,14 @@ const Pokedex = () => {
       ) }
       {/* Mostrar todos los Pokémon cuando la carga haya sido exitosa */ }
       <div className="h-full w-full">
-        {status === "loading" && (<h1>Cargando...</h1>)}
+        { status === "loading" && (<h1>Cargando...</h1>) }
         { status === 'succeeded' && (
           <ul className='w-full grid grid-cols-3 gap-8 p-4'>
             { pokedex?.map((poke) => (
               <li className='flex justify-center' key={ poke.name }>
-                <PokeCarta poke={ poke } />
+                <Link className='w-full h-full flex' onClick={ () => handleSelectPokemon(poke) } to={ `pokedex/${poke.id}` }>
+                  <PokeCarta poke={ poke } />
+                </Link>
               </li>
             )) }
           </ul>

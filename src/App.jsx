@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import Pokedex from './components/Pokedex';
+import BarraLateral from './components/BarraLateral';
 
 
 function App() {
@@ -20,8 +21,7 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={ <Layout /> } >
-          <Route path='pokedex' element={ <Pokedex /> } >
-            
+          <Route path='pokedex/:id' element={ <BarraLateral /> } >
           </Route>
         </Route>
       </Routes>

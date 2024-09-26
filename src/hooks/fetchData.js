@@ -20,9 +20,22 @@ export const fetchPokemonData = async (URL) => {
     }
 }
 
-export const searching = async (input) => {
+export const searching = async (URL,{ name }) => {
     try {
-        const { data } = await axios.get(`${URL}/${input}`)
+        const endpoint = name ? `${URL}/${name}` : `${URL}`;
+        const { data } = await axios.get(endpoint);
+        console.log(endpoint);
+        
+        return data
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export const searchByInput = async (input) => {
+    try {
+        
+        const { data } = await axios.get(`${URL}/${input}`);
         return data
     } catch (error) {
         throw new Error(error);

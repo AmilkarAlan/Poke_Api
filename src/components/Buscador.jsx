@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import PokeCarta from './PokeCarta';
-import { searchPokemon } from '../redux/searchSlice';
+import { clearPokemon, searchPokemon } from '../redux/searchSlice';
+import { Link } from 'react-router-dom';
+import { selectPokemon } from '../redux/pokemonSlice';
 
 const Buscador = () => {
     const result = useSelector((state) => state.search.searchResult);
@@ -16,6 +18,12 @@ const Buscador = () => {
             dispatch(searchPokemon(lowerName));
         }
     };
+
+    const handleSelectPokemon = (pokemon) => {
+        dispatch(selectPokemon(pokemon))
+        dispatch(clearPokemon())
+
+    }
 
     return (
         <div className='w-full h-fit flex flex-col justify-center items-center'>
@@ -34,7 +42,11 @@ const Buscador = () => {
                 <div className='flex w-full h-full mb-4'>
                     { status === "searching" && <h3>Buscando...</h3> }
                     { status === "notFound" && <h3>Pokemon no encontrado</h3> }
-                    { status === "found" && <PokeCarta poke={ result } /> }
+                    { status === "found" && (
+                        <Link className='w-full h-full flex' to={ `pokedex/${result.id}` } onClick={ () => handleSelectPokemon(result) }>
+                            <PokeCarta poke={ result } />
+                        </Link>
+                    ) }
                 </div>
             </div>
         </div>
