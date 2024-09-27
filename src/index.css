@@ -2,13 +2,13 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@layer utilities {
+/* @layer utilities {
   .clip-custom {
     clip-path: inset(0 75% 0 0);
-    /* Ajusta este valor para recortar la imagen */
+    Valor para recortar la imagen
 
   }
-}
+} */
 
 /* drop shadow */
 .box-shadow-card {
@@ -107,4 +107,19 @@
 
 .skeleton-buttons {
   @apply bg-gray-400 rounded w-[30%] h-6;
+}
+
+h2{
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: bold;
+}
+h3{
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: bold;
+}
+p{
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
