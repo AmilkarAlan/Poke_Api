@@ -31,12 +31,17 @@ const PokeCarta = ({ poke }) => {
   const bgColorClass = pokemonColor ? `poke-color-${pokemonColor.color}` : "poke-color-gray";
 
   useEffect(() => {
-    poke.types.map((type) => {
-      if (!types.find(t => t.name === type.type.name)) {
+    const missingTypes = poke.types.filter(type => 
+      !types.find(t => t.name === type.type.name)
+    );
+  
+    if (missingTypes.length > 0) {
+      missingTypes.forEach((type) => {
         dispatch(fetchPokeTypes(type.type.url));
-      }
-    });
-  }, [ poke, dispatch ]);
+      });
+    }
+  }, [poke, types, dispatch]);
+  
 
   return (
     <div className="w-full flex flex-col justify-center items-center bg-white rounded-md  box-shadow-card"

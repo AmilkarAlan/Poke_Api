@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchExtraInfo, getPokemon } from "../redux/pokemonSlice";
 import { useParams } from "react-router-dom";
+import { fetchPokeTypes } from "../redux/typesSlice";
 
 const BarraLateral = () => {
   const { pokemon, pokeExtra } = useSelector((state) => state.pokemons);
@@ -12,16 +13,28 @@ const BarraLateral = () => {
   useEffect(() => {
     if (id) {
       dispatch(getPokemon(id));
-      console.log(id);
-
     }
   }, [ dispatch, id ]);
 
   useEffect(() => {
-    if (pokemon && pokemon.species?.url) {
-      dispatch(fetchExtraInfo(pokemon.species.url));
+    if (pokemon) {
+      // Filtrar los tipos que aún no han sido cargados
+      const missingTypes = pokemon.types.filter(type =>
+        !types.find(t => t.name === type.type.name)
+      );
+  
+      // Despachar acciones solo si faltan tipos
+      missingTypes.forEach(type => {
+        dispatch(fetchPokeTypes(type.type.url));
+      });
+  
+      // Despachar la información extra solo si existe la URL de species
+      if (pokemon.species?.url) {
+        dispatch(fetchExtraInfo(pokemon.species.url));
+      }
     }
-  }, [ dispatch, pokemon ]);
+  }, [dispatch, pokemon, types]);
+  
 
   const flavorTextInSpanish = pokeExtra?.flavor_text_entries.find(
     (entry) => entry.language.name === "es"
@@ -69,16 +82,24 @@ const BarraLateral = () => {
                 ) : null;
               }) }
             </div>
-            { pokeExtra && (
-              <div className="flex flex-col justify-center items-center text-center">
-                <h3>Información de la pokedex</h3>
-                { flavorTextInSpanish ? (
-                  <p>{ flavorTextInSpanish.flavor_text }</p>
-                ) : (
-                  <p>No se encontró una descripción en español.</p>
-                ) }
+            {/* { pokeExtra && ( */ }
+            <div className="flex flex-col justify-center items-center text-center">
+              <h3>Información de la pokedex</h3>
+              { flavorTextInSpanish ? (
+                <p>{ flavorTextInSpanish.flavor_text }</p>
+              ) : (
+                <p>No se encontró una descripción en español.</p>
+              ) }
+            </div>
+            {/* ) } */ }
+            <div className="flex flex-col items-center">
+              <h3>Habilidades</h3>
+              <div className="flex gap-2">
+                { pokemon.abilities.map((a, i) => (
+                  <p key={ i }>{ a.ability.name }</p>
+                )) }
               </div>
-            ) }
+            </div>
           </div>
         </div>
       ) : (
