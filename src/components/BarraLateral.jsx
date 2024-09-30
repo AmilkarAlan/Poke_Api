@@ -44,7 +44,7 @@ const BarraLateral = () => {
   );
 
   return (
-    <aside className="h-full w-full flex flex-col bg-white rounded-xl">
+    <aside className="h-full w-full flex flex-col bg-white rounded-xl shadow-xl">
       { id && pokemon ? (
         <div className="flex flex-col items-center pl-4 pr-4 gap-4">
           {/* Imagen del Pokémon */ }

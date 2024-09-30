@@ -10,7 +10,7 @@ const Layout = () => {
       <header className="col-span-2 bg-gray-200">
         Header
       </header>
-      <main className="p-8 grid grid-cols-2 bg-green-200 w-full pl-28 pr-28 gap-8">
+      <main className="p-8 grid grid-cols-2 bg-gray-300 w-full pl-28 pr-28 gap-8">
         <div className='w-full '>
           <Buscador />
           <Pokedex />
