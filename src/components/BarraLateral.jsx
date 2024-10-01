@@ -22,19 +22,19 @@ const BarraLateral = () => {
       const missingTypes = pokemon.types.filter(type =>
         !types.find(t => t.name === type.type.name)
       );
-  
+
       // Despachar acciones solo si faltan tipos
       missingTypes.forEach(type => {
         dispatch(fetchPokeTypes(type.type.url));
       });
-  
+
       // Despachar la información extra solo si existe la URL de species
       if (pokemon.species?.url) {
         dispatch(fetchExtraInfo(pokemon.species.url));
       }
     }
-  }, [dispatch, pokemon, types]);
-  
+  }, [ dispatch, pokemon, types ]);
+
 
   const flavorTextInSpanish = pokeExtra?.flavor_text_entries.find(
     (entry) => entry.language.name === "es"
@@ -44,7 +44,7 @@ const BarraLateral = () => {
   );
 
   return (
-    <aside className="h-full w-full flex flex-col bg-white rounded-xl shadow-xl">
+    <aside className="h-full w-full flex flex-col bg-white rounded-xl shadow-2xl">
       { id && pokemon ? (
         <div className="flex flex-col items-center pl-4 pr-4 gap-4">
           {/* Imagen del Pokémon */ }
@@ -96,7 +96,9 @@ const BarraLateral = () => {
               <h3>Habilidades</h3>
               <div className="flex gap-2">
                 { pokemon.abilities.map((a, i) => (
-                  <p key={ i }>{ a.ability.name }</p>
+                  <div className="rounded-xl border border-gray-600 flex items-center p-1" key={ i }>
+                    <p >{ a.ability.name.charAt(0).toUpperCase() + a.ability.name.slice(1) }</p>
+                  </div>
                 )) }
               </div>
             </div>

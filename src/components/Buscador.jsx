@@ -4,6 +4,7 @@ import PokeCarta from './PokeCarta';
 import { clearPokemon, searchPokemon } from '../redux/searchSlice';
 import { Link } from 'react-router-dom';
 import { selectPokemon } from '../redux/pokemonSlice';
+import pokeBallIcon from "../../public/pokeballIcon.png"
 
 const Buscador = () => {
     const result = useSelector((state) => state.search.searchResult);
@@ -27,16 +28,16 @@ const Buscador = () => {
 
     return (
         <div className='w-full h-fit flex flex-col justify-center items-center'>
-            <form onSubmit={ (e) => e.preventDefault() } className="w-full mt-4 flex items-center h-full p-4 bg-white rounded-lg">
+            <form onSubmit={ (e) => e.preventDefault() } className="w-full mt-4 flex items-center h-full p-2 bg-white rounded-lg shadow-lg">
                 <input
                     type="text"
                     value={ name }
                     onChange={ (e) => setName(e.target.value) }
                     placeholder="Ejemplo: pikachu ó 25"
-                    className="w-full h-1/2 mr-2 ml-2"
+                    className="w-full h-10 mr-2 ml-2 outline-none"
 
                 />
-                <button className="w-fit" onClick={ handleSearch }>Go</button>
+                <button className="w-fit h-fit p-1 rounded-lg bg-red-600 shadow-lg shadow-red-500" onClick={ handleSearch }><img className='h-8 w-8' src={pokeBallIcon} alt="icon" /></button>
             </form>
             <div className='w-1/2 h-full mt-8'>
                 <div className='flex w-full h-30 mb-4'>

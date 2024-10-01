@@ -44,7 +44,7 @@ const PokeCarta = ({ poke }) => {
   
 
   return (
-    <div className="w-full flex flex-col justify-center items-center bg-white rounded-md  box-shadow-card"
+    <div className="w-full flex flex-col justify-center items-center bg-white rounded-md shadow-xl  box-shadow-card"
 
     // style={{backgroundImage: `url(${poke.sprites.other.dream_world.front_default})`}}
     >
