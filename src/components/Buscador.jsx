@@ -8,14 +8,15 @@ import pokeBallIcon from "../../public/pokeballIcon.png"
 
 const Buscador = () => {
     const result = useSelector((state) => state.search.searchResult);
+    const { pokedex } = useSelector((state) => state.pokemons);
     const status = useSelector((state) => state.search.status);
     const dispatch = useDispatch();
 
-    const [ name, setName ] = useState("");
+    const [ input, setInput ] = useState("");
 
     const handleSearch = () => {
-        if (name !== "") {
-            const lowerName = name.toLowerCase();
+        if (input !== "") {
+            const lowerName = input.toLowerCase();
             dispatch(searchPokemon(lowerName));
         }
     };
@@ -31,17 +32,17 @@ const Buscador = () => {
             <form onSubmit={ (e) => e.preventDefault() } className="w-full mt-4 flex items-center h-full p-2 bg-white rounded-lg shadow-lg">
                 <input
                     type="text"
-                    value={ name }
-                    onChange={ (e) => setName(e.target.value) }
+                    value={ input }
+                    onChange={ (e) => setInput(e.target.value) }
                     placeholder="Ejemplo: pikachu ó 25"
                     className="w-full h-10 mr-2 ml-2 outline-none"
 
                 />
-                <button className="w-fit h-fit p-1 rounded-lg bg-red-600 shadow-lg shadow-red-500" onClick={ handleSearch }><img className='h-8 w-8' src={pokeBallIcon} alt="icon" /></button>
+                <button className="w-fit h-fit p-1 rounded-lg bg-red-600 shadow-lg shadow-red-500" onClick={ handleSearch }><img className='h-8 w-8' src={ pokeBallIcon } alt="icon" /></button>
             </form>
             <div className='w-1/2 h-full mt-8'>
                 <div className='flex w-full h-30 mb-4'>
-                    {status === "idle" && <h3>Busca un pokemon por nombre o por numero en la pokedex</h3>}
+                    { status === "idle" && <h3>Busca un pokemon por nombre o por numero en la pokedex</h3> }
                     { status === "searching" && <h3>Buscando...</h3> }
                     { status === "notFound" && <h3>Pokemon no encontrado</h3> }
                     { status === "found" && (

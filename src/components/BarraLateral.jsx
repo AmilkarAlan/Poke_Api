@@ -102,6 +102,14 @@ const BarraLateral = () => {
                 )) }
               </div>
             </div>
+            <div className="flex flex-col items-center">
+              <h3>Cadena evolutiva</h3>
+
+            </div>
+            <div className="flex gap-2 items-center">
+              <button>Anterior</button>
+              <button>Siguiente</button>
+            </div>
           </div>
         </div>
       ) : (
