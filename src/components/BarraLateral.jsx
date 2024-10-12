@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchExtraInfo, getPokemon } from "../redux/pokemonSlice";
 import { useParams } from "react-router-dom";
 import { fetchPokeTypes } from "../redux/typesSlice";
+import valorIcon from "../assets/valor.png"
+import CadenaEvolutiva from "./CadenaEvolutiva";
 
 const BarraLateral = () => {
   const { pokemon, pokeExtra } = useSelector((state) => state.pokemons);
@@ -44,13 +46,13 @@ const BarraLateral = () => {
   );
 
   return (
-    <aside className="h-full w-full flex flex-col bg-white rounded-xl shadow-2xl">
+    <aside className="w-full p-4 flex flex-col bg-white rounded-xl shadow-2xl">
       { id && pokemon ? (
         <div className="flex flex-col items-center pl-4 pr-4 gap-4">
           {/* Imagen del Pokémon */ }
           <div className="flex w-40 h-24 relative">
             <img
-              className="object-cover h-fit w-fit absolute bottom-0"
+              className="drop-shadow-lg object-cover h-fit w-fit absolute bottom-0"
               src={ pokemon.sprites?.other?.home?.front_default }
               alt={ pokemon.name }
             />
@@ -102,19 +104,12 @@ const BarraLateral = () => {
                 )) }
               </div>
             </div>
-            <div className="flex flex-col items-center">
-              <h3>Cadena evolutiva</h3>
-
-            </div>
-            <div className="flex gap-2 items-center">
-              <button>Anterior</button>
-              <button>Siguiente</button>
-            </div>
+            <CadenaEvolutiva pokemon={pokemon}/>
           </div>
         </div>
       ) : (
-        <div>
-          <p>Busca o selecciona un Pokémon</p>
+        <div className="h-full w-full flex justify-center items-center">
+          <img className="h-1/3 w-1/2 drop-shadow-[0px_10px_8px_#ef4444]" src={valorIcon} alt="logo" />
         </div>
       ) }
     </aside>

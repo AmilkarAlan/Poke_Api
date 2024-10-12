@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPokedex, nextPage, previousPage, selectPokemon } from '../redux/pokemonSlice';
 import PokeCarta from './PokeCarta';
 import { Link } from 'react-router-dom';
+import Buscador from './Buscador';
 
 
 const Pokedex = () => {
@@ -30,31 +31,35 @@ const Pokedex = () => {
 
   const handleSelectPokemon = (pokemon) => {
     dispatch(selectPokemon(pokemon))
-    
+
   }
   return (
-    <div className='w-full'>
+    <div className='w-full h-screen flex flex-col bg-slate-400 p-4 rounded-xl'>
+      <Buscador />
       { status === "failed" && (
         <p>{ error }</p>
       ) }
       {/* Mostrar todos los Pokémon cuando la carga haya sido exitosa */ }
-      <div className="h-full w-full">
+
+      <div className='h-full w-full flex flex-col p-4 gap-2 overflow-y-scroll'>
         { status === "loading" && (<h1>Cargando...</h1>) }
         { status === 'succeeded' && (
-          <ul className='w-full grid grid-cols-3 gap-8 p-4'>
+          <>
+            {/* <ul className='h-full w-full flex flex-col gap-2 p-4'> */ }
             { pokedex?.map((poke) => (
-              <li className='flex justify-center' key={ poke.name }>
-                <Link className='w-full h-full flex' onClick={ () => handleSelectPokemon(poke) } to={ `pokedex/${poke.id}` }>
-                  <PokeCarta poke={ poke } />
-                </Link>
-              </li>
+
+              <Link key={ poke.name } className='' onClick={ () => handleSelectPokemon(poke) } to={ `/pokedex/${poke.id}` }>
+                <PokeCarta poke={ poke } />
+              </Link>
+
             )) }
-          </ul>
+            {/* </ul> */ }
+          </>
         ) }
       </div>
-      <div className='botones'>
-        <button onClick={ handlePrevious } disabled={ offset === 0 }>Anterior</button>
-        <button onClick={ handleNext }>Siguiente</button>
+      <div className='flex justify-between p-2 mt-2'>
+        <button className='bg-slate-100 rounded ' onClick={ handlePrevious } disabled={ offset === 0 }>Anterior</button>
+        <button className='bg-slate-100 rounded ' onClick={ handleNext }>Siguiente</button>
       </div>
     </div>
   )

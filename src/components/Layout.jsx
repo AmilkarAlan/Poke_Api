@@ -6,18 +6,14 @@ import Pokedex from './Pokedex'
 
 const Layout = () => {
   return (
-    <div className="w-screen h-screen grid grid-cols-1 grid-rows-[auto_1fr]">
-      <header className="col-span-2 bg-gray-200">
+    <div className="max-w-screen h-screen grid grid-cols-1 grid-rows-[auto_1fr]">
+      <header className=" h-fit w-full col-span-2 bg-gray-200">
         Header
       </header>
-      <main className="p-8 grid grid-cols-2 bg-gray-300 w-full pl-28 pr-28 gap-8">
-        <div className='w-full '>
-          <Buscador />
-          <Pokedex />
-        </div>
-        <div className='w-full h-screen p-4'>
-          <BarraLateral />
-        </div>
+      <main className="grid grid-cols-2 bg-gray-300 w-full h-full gap-8 p-8">
+        <Pokedex />
+        <BarraLateral />
+
       </main>
     </div>
 

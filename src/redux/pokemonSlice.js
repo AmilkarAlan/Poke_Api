@@ -47,7 +47,16 @@ export const fetchExtraInfo = createAsyncThunk(
 
 export const getPokemon = createAsyncThunk(
     'pokemons/getPokemon',
-    async (input) => {
+    async (input, { getState }) => {
+        const { pokemons } = getState();
+        const { pokedex } = pokemons;
+
+        const foundPokemon = pokedex.find(pokemon =>
+            pokemon.name === input || pokemon.id === input
+        );
+        if (foundPokemon) {
+            return foundPokemon;
+        }
         const response = await searchByInput(input)
         return response
     }

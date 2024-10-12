@@ -24,33 +24,34 @@ const Buscador = () => {
     const handleSelectPokemon = (pokemon) => {
         dispatch(selectPokemon(pokemon))
         dispatch(clearPokemon())
+        setInput("")
 
     }
 
     return (
-        <div className='w-full h-fit flex flex-col justify-center items-center'>
-            <form onSubmit={ (e) => e.preventDefault() } className="w-full mt-4 flex items-center h-full p-2 bg-white rounded-lg shadow-lg">
+        <div className='w-full h-fit flex flex-col justify-center items-center gap-4 mb-2'>
+            <form onSubmit={ (e) => e.preventDefault() } className="w-full flex items-center h-full p-2 bg-white rounded-lg shadow-lg">
                 <input
                     type="text"
                     value={ input }
                     onChange={ (e) => setInput(e.target.value) }
-                    placeholder="Ejemplo: pikachu ó 25"
-                    className="w-full h-10 mr-2 ml-2 outline-none"
+                    placeholder="Busca un pokemon por nombre ó por número en la pokedex: Pikachu ó 25"
+                    className="w-full h-10 mr-2 ml-2 outline-none placeholder:text-sm"
 
                 />
                 <button className="w-fit h-fit p-1 rounded-lg bg-red-600 shadow-lg shadow-red-500" onClick={ handleSearch }><img className='h-8 w-8' src={ pokeBallIcon } alt="icon" /></button>
             </form>
-            <div className='w-1/2 h-full mt-8'>
-                <div className='flex w-full h-30 mb-4'>
-                    { status === "idle" && <h3>Busca un pokemon por nombre o por numero en la pokedex</h3> }
-                    { status === "searching" && <h3>Buscando...</h3> }
-                    { status === "notFound" && <h3>Pokemon no encontrado</h3> }
-                    { status === "found" && (
-                        <Link className='w-full h-full flex' to={ `pokedex/${result.id}` } onClick={ () => handleSelectPokemon(result) }>
-                            <PokeCarta poke={ result } />
-                        </Link>
-                    ) }
-                </div>
+            <div className='w-1/2 h-full gap-4'>
+
+
+                { status === "searching" && <h3>Buscando...</h3> }
+                { status === "notFound" && <h3>Pokemon no encontrado</h3> }
+                { status === "found" && (
+                    <Link className='w-full h-full flex' to={ `/pokedex/${result.id}` } onClick={ () => handleSelectPokemon(result) }>
+                        <PokeCarta poke={ result } />
+                    </Link>
+                ) }
+
             </div>
         </div>
     )
