@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColors, fetchPokeTypes } from "../redux/typesSlice";
 import Esqueleto from "./Esqueleto";
+import pokeIconBlack from "../assets/pokeIconBlack.png"
 
 const PokeCarta = ({ poke }) => {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const PokeCarta = ({ poke }) => {
               <img className="object-contain w-full h-full" alt={ poke.name } src={ poke.sprites.other.showdown.front_default !== null ? poke.sprites.other.showdown.front_default : poke.sprites.other.dream_world.front_default } />
             </div>
           </div>
-          <div className="w-1/2  h-full flex items-center gap-2">
+          <div className="w-full h-full flex items-center gap-2">
             <p className="text-gray-500"><span>#</span>{ `${poke.id.toString().padStart(4, '0')}` }</p> {/* convertimos a string y añadimos padStart para que sea una cadena de 4 caracteres, en caso de tener menos agrega 0 al inicio para completar, 1, 0001, añade 3 para completar la cadena de 4 con el 1*/ }
             <h3 className="font-bold text-base">{ poke.name.charAt(0).toUpperCase() + poke.name.slice(1) }</h3>
           </div>
@@ -73,6 +74,9 @@ const PokeCarta = ({ poke }) => {
                 </div>
               ) : null;
             }) }
+          </div>
+          <div className="h-full w-full flex justify-end">
+            <img className="h-6 w-6 opacity-55" src={pokeIconBlack} alt="icon" />
           </div>
         </>) }
     </div>

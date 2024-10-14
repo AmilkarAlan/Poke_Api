@@ -41,14 +41,14 @@ const Pokedex = () => {
       ) }
       {/* Mostrar todos los Pokémon cuando la carga haya sido exitosa */ }
 
-      <div className='h-full w-full flex flex-col p-4 gap-2 overflow-y-scroll'>
+      <div className='h-full w-full flex flex-col p-8 gap-2 overflow-y-scroll'>
         { status === "loading" && (<h1>Cargando...</h1>) }
         { status === 'succeeded' && (
           <>
             {/* <ul className='h-full w-full flex flex-col gap-2 p-4'> */ }
             { pokedex?.map((poke) => (
 
-              <Link key={ poke.name } className='' onClick={ () => handleSelectPokemon(poke) } to={ `/pokedex/${poke.id}` }>
+              <Link key={ poke.name } onClick={ () => handleSelectPokemon(poke) } to={ `/pokedex/${poke.id}` }>
                 <PokeCarta poke={ poke } />
               </Link>
 
